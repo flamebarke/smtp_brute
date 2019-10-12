@@ -23,7 +23,6 @@ except:
     print("[!] Error file not found --> exiting")
     sys.exit(0)
 
-
 # create a socket
 try:
     s=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -43,17 +42,16 @@ except:
     print("[!] Socket failed to connect --> exiting")
     sys.exit(0)
 
-
 # clean the lines / iterate over the wordlist / receive and print the result
 try:
     for line in wordlist:
-        line=line.rstrip() # clean lines
+        line=line.rstrip()
         print("[*] Trying " + line)
-        s.send('VRFY ' + line + '\r\n') # VRFY a user
+        s.send('VRFY ' + line + '\r\n')
         result=s.recv(1024) # receive the result
-        with open("/tmp/.vrfy", "w") as outfile: # open .tmp file in write mode
-            print >>outfile, result # write result to .tmp
-        os.system("cat /tmp/.vrfy | grep 250; echo ' '") # print successful responses to stdout
+        with open("/tmp/.vrfy", "w") as outfile:
+            print >>outfile, result
+        os.system("cat /tmp/.vrfy | grep 250; echo ' '")
 except:
     print("\n[!] Failed sending VRFY request --> exiting")
     sys.exit(0)
